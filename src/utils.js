@@ -2,9 +2,13 @@ export const setNewOffset = (card, mouseMoveDir = { x: 0, y: 0 }) => {
   const offsetLeft = card.offsetLeft - mouseMoveDir.x;
   const offsetTop = card.offsetTop - mouseMoveDir.y;
 
+  // boundaries
+  const maxX = document.documentElement.clientWidth - card.offsetWidth;
+  const maxY = document.documentElement.clientHeight - card.offsetHeight;
+
   return {
-    x: offsetLeft < 0 ? 0 : offsetLeft,
-    y: offsetTop < 0 ? 0 : offsetTop,
+    x: Math.min(Math.max(0, offsetLeft), maxX),
+    y: Math.min(Math.max(0, offsetTop), maxY),
   };
 };
 
