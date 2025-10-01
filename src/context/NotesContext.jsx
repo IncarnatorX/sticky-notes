@@ -3,13 +3,30 @@ import { useState, useEffect } from "react";
 import Spinner from "../icons/Spinner";
 import { db } from "../appwrite/databases";
 import PropTypes from "prop-types";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
 
 export const NotesContext = createContext();
 
 const NotesProvider = ({ children }) => {
+  const [user, setUser] = useState({});
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [notes, setNotes] = useState();
   const [selectedNote, setSelectedNote] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsUserLoggedIn(true);
+        setUser(user);
+      } else {
+        setIsUserLoggedIn(false);
+        setUser({});
+      }
+    });
+  }, []);
 
   useEffect(() => {
     init();
@@ -22,6 +39,10 @@ const NotesProvider = ({ children }) => {
   };
 
   const contextData = {
+    user,
+    isUserLoggedIn,
+    setUser,
+    setIsUserLoggedIn,
     notes,
     setNotes,
     selectedNote,

@@ -33,6 +33,6 @@ export const bodyParser = (value) => {
     JSON.parse(value);
     return JSON.parse(value);
   } catch (error) {
-    return value;
+    return error;
   }
 };

@@ -1,12 +1,14 @@
-import NotesPages from "./pages/NotesPages";
 import NoteProvider from "./context/NotesContext";
+import Main from "./components/Main";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div id="app">
       <NoteProvider>
-        <NotesPages />
+        <Main />
       </NoteProvider>
+      <Toaster />
     </div>
   );
 }

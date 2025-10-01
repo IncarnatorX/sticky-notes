@@ -24,7 +24,7 @@ body {
   background-size: 4em 4em;
   height: 100vh;
   position: relative;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .card {
@@ -135,4 +135,68 @@ textarea:focus {
 .color:hover {
   height: 45px;
   width: 45px;
+}
+
+.login-form,
+.email-div,
+.password-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form {
+  width: 30rem;
+  padding: 3rem;
+  border: 2px solid #fff;
+  border-radius: 1rem;
+  margin-inline: auto;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  gap: 1rem;
+}
+
+.email-div,
+.password-div {
+  width: 100%;
+  padding: 0.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.email-div-input,
+.password-div-input {
+  outline: none;
+  border-radius: 0.2rem;
+  border: 2px solid #fff;
+  padding: 0.8rem;
+  font-size: 1em;
+}
+
+.login-btn {
+  outline: none;
+  color: #fff;
+  background-color: #0b5ed7;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  font-size: 1em;
+  width: 100%;
+  border: none;
+  &:disabled {
+    background-color: rgb(156, 141, 141);
+    cursor: not-allowed;
+  }
+}
+
+.logout-btn {
+  width: fit-content;
+  border-radius: 50%;
+  background-color: #0b5ed7;
+  color: #fff;
+  padding: 0.5rem;
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
 }
