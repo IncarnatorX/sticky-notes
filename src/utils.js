@@ -1,10 +1,13 @@
 export const setNewOffset = (card, mouseMoveDir = { x: 0, y: 0 }) => {
-  const offsetLeft = card.offsetLeft - mouseMoveDir.x;
-  const offsetTop = card.offsetTop - mouseMoveDir.y;
+  if (!card) return { x: 0, y: 0 };
 
-  // boundaries
-  const maxX = document.documentElement.clientWidth - card.offsetWidth;
-  const maxY = document.documentElement.clientHeight - card.offsetHeight;
+  // Use offsetLeft/Top as base but get robust viewport values from window
+  const offsetLeft = card.offsetLeft - (mouseMoveDir.x || 0);
+  const offsetTop = card.offsetTop - (mouseMoveDir.y || 0);
+
+  // boundaries — use window inner size so changes from devtools / resize are accounted for
+  const maxX = Math.max(0, window.innerWidth - card.offsetWidth);
+  const maxY = Math.max(0, window.innerHeight - card.offsetHeight);
 
   return {
     x: Math.min(Math.max(0, offsetLeft), maxX),

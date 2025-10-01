@@ -27,14 +27,42 @@ const NoteCard = ({ note }) => {
   useEffect(() => {
     autoGrow(textAreaRef);
     setZIndex(cardRef.current);
-  }, []);
+
+    // Ensure card is inside viewport on mount
+    if (cardRef.current) {
+      const clamped = setNewOffset(cardRef.current);
+      setPosition(clamped);
+      // persist if initial note position was outside viewport and got clamped
+      if (clamped.x !== position.x || clamped.y !== position.y) {
+        saveData("position", clamped);
+      }
+    }
+  }, [position.x, position.y]);
+
+  // Re-clamp note position if window resizes (handles devtools docking / smaller window)
+  useEffect(() => {
+    function handleResize() {
+      if (!cardRef.current) return;
+      const clamped = setNewOffset(cardRef.current);
+      // only update & persist when the clamped position differs from current state
+      if (clamped.x !== position.x || clamped.y !== position.y) {
+        setPosition(clamped);
+        saveData("position", clamped);
+      } else {
+        setPosition(clamped);
+      }
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [position]);
 
   function mouseDown(e) {
-    // console.log(e.target)
+    // Only start drag when header is targeted
     if (e.target.className === "card-header") {
       setZIndex(cardRef.current);
-      mouseStartPos.x = e.ClientX;
-      mouseStartPos.y = e.ClientY;
+      // fixed capitalization
+      mouseStartPos.x = e.clientX;
+      mouseStartPos.y = e.clientY;
       document.addEventListener("mousemove", mouseMove);
       document.addEventListener("mouseup", mouseUp);
       setSelectedNote(note);

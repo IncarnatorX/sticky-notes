@@ -23,6 +23,7 @@ export default function LoginPage() {
     } catch (error) {
       console.error(error, error.message, `CODE: ${error.code}`);
       setIsUserLoggedIn(false);
+      setLoading(false);
       toast.error("Error while logging in.");
     } finally {
       event.currentTarget.reset();
